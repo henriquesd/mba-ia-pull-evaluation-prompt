@@ -1,0 +1,100 @@
+==================================================
+AVALIAÇÃO DE PROMPTS OTIMIZADOS
+==================================================
+Provider: google
+Modelo Principal: gemini-3.7-flash
+Modelo de Avaliação: gemini-3.7-flash
+Criando dataset de avaliação: prompt-optimization-challenge-resolved-eval...
+   ✓ Carregados 15 exemplos do arquivo datasets/bug_to_user_story.jsonl
+   ✓ Dataset 'prompt-optimization-challenge-resolved-eval' já existe, usando existente
+======================================================================
+PROMPTS PARA AVALIAR
+======================================================================
+Este script irá puxar prompts do LangSmith Hub.
+Certifique-se de ter feito push dos prompts antes de avaliar:
+  python src/push_prompts.py
+🔍 Avaliando: henriquesd/bug_to_user_story_v2
+   Puxando prompt do LangSmith Hub: henriquesd/bug_to_user_story_v2
+   ✓ Prompt carregado com sucesso
+   Dataset: 15 exemplos
+C:\Users\hsdfo\henrique\github\mba-ia-pull-evaluation-prompt\venv\Lib\site-packages\langchain_google_genai\chat_models.py:47: FutureWarning: 
+See README for more details:
+C:\Users\hsdfo\henrique\github\mba-ia-pull-evaluation-prompt\src\run_evaluation.py:122: LangChainBetaWarning: Introduced in 0.2.24. API subject to change.
+   Avaliando exemplos...
+      [1/15] F1:0.84 Clarity:0.95 Precision:0.93
+      [2/15] F1:0.87 Clarity:1.00 Precision:1.00
+Retrying langchain_google_genai.chat_models._chat_with_retry.<locals>._chat_with_retry in 2 seconds as it raised ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.8-flash
+Please retry in 4.951094273s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.8-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 4
+}
+].
+      ⚠️  Cota DIÁRIA de gemini-3.8-flash esgotada — removendo do pool.
+      [3/15] F1:0.92 Clarity:0.90 Precision:1.00
+      [4/15] F1:0.75 Clarity:0.90 Precision:0.93
+      [5/15] F1:0.75 Clarity:1.00 Precision:0.98
+      [6/15] F1:0.92 Clarity:0.95 Precision:0.80
+      [7/15] F1:0.97 Clarity:1.00 Precision:0.93
+      [8/15] F1:0.92 Clarity:0.85 Precision:0.98
+      [9/15] F1:0.85 Clarity:0.85 Precision:0.82
+      [10/15] F1:0.69 Clarity:1.00 Precision:0.98
+      [11/15] F1:0.95 Clarity:0.85 Precision:0.67
+      [12/15] F1:0.95 Clarity:0.93 Precision:0.83
+      [13/15] F1:1.00 Clarity:0.80 Precision:1.00
+      [14/15] F1:1.00 Clarity:0.95 Precision:0.96
+      [15/15] F1:0.89 Clarity:1.00 Precision:0.97
+==================================================
+Prompt: henriquesd/bug_to_user_story_v2
+==================================================
+Métricas Derivadas:
+  - Helpfulness: 0.92 ✓
+  - Correctness: 0.90 ✓
+Métricas Base:
+  - F1-Score: 0.88 ✓
+  - Clarity: 0.93 ✓
+  - Precision: 0.92 ✓
+--------------------------------------------------
+📊 MÉDIA GERAL: 0.9115
+--------------------------------------------------
+✅ STATUS: APROVADO - Todas as métricas >= 0.8
+==================================================
+RESUMO FINAL
+==================================================
+Prompts avaliados: 1
+Aprovados: 1
+Reprovados: 0
+✅ Todos os prompts atingiram todas as métricas >= 0.8!
+✓ Confira os resultados em:
+  https://smith.langchain.com/projects/prompt-optimization-challenge-resolved
+Próximos passos:
+1. Documente o processo no README.md
+2. Capture screenshots das avaliações
+3. Faça commit e push para o GitHub
+--------------------------------------------------
+Chamadas bem-sucedidas por modelo:
+  - gemini-3.1-flash-lite: 21
+  - gemini-3.5-flash: 10
+  - gemini-3.5-flash-lite: 9
+  - gemini-2.5-flash-lite: 9
+  - gemini-3-flash-preview: 9
+  - gemini-3.8-flash: 2 (cota diária esgotada)
+--------------------------------------------------
+exit=0
+[exited with code 0]

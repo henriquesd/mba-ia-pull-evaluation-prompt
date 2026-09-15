@@ -131,7 +131,7 @@ Contexto Tecnico:
 
 ## Resultados Finais
 
-Avaliação executada em 14/09/2026 sobre os 15 exemplos de
+Avaliação executada em 15/09/2026 sobre os 15 exemplos de
 `datasets/bug_to_user_story.jsonl`.
 
 **STATUS: APROVADO — todas as 5 métricas >= 0.8**
@@ -146,12 +146,12 @@ https://smith.langchain.com/prompts/bug_to_user_story_v2/80fcb0c9?organizationId
 
 | Métrica | v1 (referência) | v2 (medido) | Meta | Status |
 | --- | --- | --- | --- | --- |
-| Helpfulness | 0.45 | **0.90** | >= 0.8 | ✅ |
-| Correctness | 0.52 | **0.91** | >= 0.8 | ✅ |
-| F1-Score | 0.48 | **0.90** | >= 0.8 | ✅ |
-| Clarity | 0.50 | **0.89** | >= 0.8 | ✅ |
-| Precision | 0.46 | **0.91** | >= 0.8 | ✅ |
-| **Média geral** | 0.48 | **0.9008** | >= 0.8 | ✅ |
+| Helpfulness | 0.45 | **0.92** | >= 0.8 | ✅ |
+| Correctness | 0.52 | **0.90** | >= 0.8 | ✅ |
+| F1-Score | 0.48 | **0.88** | >= 0.8 | ✅ |
+| Clarity | 0.50 | **0.93** | >= 0.8 | ✅ |
+| Precision | 0.46 | **0.92** | >= 0.8 | ✅ |
+| **Média geral** | 0.48 | **0.9115** | >= 0.8 | ✅ |
 
 > Os números da coluna **v1** são os valores ilustrativos do enunciado do
 > desafio, não uma medição própria: o `src/evaluate.py` avalia apenas
@@ -162,32 +162,65 @@ https://smith.langchain.com/prompts/bug_to_user_story_v2/80fcb0c9?organizationId
 
 | # | F1 | Clarity | Precision |
 | --- | --- | --- | --- |
-| 1 | 0.92 | 0.45 | 0.80 |
-| 2 | 0.91 | 0.95 | 0.93 |
-| 3 | 0.90 | 0.95 | 0.93 |
-| 4 | 0.81 | 0.85 | 0.97 |
-| 5 | 0.77 | 0.85 | 1.00 |
+| 1 | 0.84 | 0.95 | 0.93 |
+| 2 | 0.87 | 1.00 | 1.00 |
+| 3 | 0.92 | 0.90 | 1.00 |
+| 4 | 0.75 | 0.90 | 0.93 |
+| 5 | 0.75 | 1.00 | 0.98 |
 | 6 | 0.92 | 0.95 | 0.80 |
-| 7 | 0.97 | 0.95 | 0.95 |
-| 8 | 0.90 | 1.00 | 0.93 |
-| 9 | 0.82 | 0.90 | 0.87 |
-| 10 | 0.87 | 0.95 | 0.87 |
-| 11 | 1.00 | 0.85 | 0.93 |
-| 12 | 0.80 | 0.95 | 0.83 |
-| 13 | 0.97 | 0.80 | 1.00 |
-| 14 | 0.97 | 0.95 | 1.00 |
-| 15 | 1.00 | 0.95 | 0.83 |
+| 7 | 0.97 | 1.00 | 0.93 |
+| 8 | 0.92 | 0.85 | 0.98 |
+| 9 | 0.85 | 0.85 | 0.82 |
+| 10 | 0.69 | 1.00 | 0.98 |
+| 11 | 0.95 | 0.85 | 0.67 |
+| 12 | 0.95 | 0.93 | 0.83 |
+| 13 | 1.00 | 0.80 | 1.00 |
+| 14 | 1.00 | 0.95 | 0.96 |
+| 15 | 0.89 | 1.00 | 0.97 |
 
-Ponto fraco conhecido: o exemplo 1 tirou Clarity 0.45, bem abaixo dos demais
-(todos >= 0.80). É o melhor candidato para a próxima iteração.
+Menor nota da rodada: exemplo 11 (F1 0.95, Clarity 0.85, Precision 0.67). Ainda
+assim acima do mínimo exigido.
 
-### Screenshots
+A saída completa do terminal está em
+[`docs/evaluation-output.txt`](docs/evaluation-output.txt).
 
-> Salve as imagens em `docs/` e referencie aqui.
+### Evidências
 
-- `docs/langsmith-dataset.png` — dataset de avaliação com os 15 exemplos
-- `docs/langsmith-scores.png` — execuções da v2 com todas as notas >= 0.8
-- `docs/langsmith-tracing.png` — tracing detalhado de pelo menos 3 exemplos
+#### Dataset de avaliação — 15 exemplos
+
+![Dataset com 15 exemplos](docs/langsmith-dataset-1.png)
+
+#### Tracing detalhado — 3 exemplos
+
+Cada trace mostra a árvore de execução, o `bug_report` de entrada e a User
+Story gerada, com os critérios de aceitação em Given-When-Then.
+
+![Trace 1 - bug do carrinho](docs/langsmith-tracing-2.png)
+
+![Trace 2 - bug de layout no iOS](docs/langsmith-tracing-3.png)
+
+![Trace 3 - bug de validacao de email](docs/langsmith-tracing-4.png)
+
+#### Notas da avaliação
+
+![Metricas da avaliacao](docs/evaluation-scores.png)
+
+> **Por que as notas vêm do terminal, e não do dashboard do LangSmith**
+>
+> O `src/evaluate.py` (arquivo pronto, que o desafio proíbe alterar) calcula as
+> 5 métricas em memória e as imprime no terminal. Ele nunca chama
+> `client.create_feedback()` nem a API `evaluate()` do LangSmith, então nenhuma
+> nota é gravada como feedback — nos traces acima, o painel "Feedback" aparece
+> vazio de propósito.
+>
+> O LangSmith registra o **dataset**, as **execuções** e o **tracing**; a
+> pontuação existe apenas na saída do script. Por isso o enunciado aceita
+> "link público **ou** screenshots".
+
+**Links no LangSmith** (visíveis para quem tem acesso ao workspace):
+
+- Dataset: `https://smith.langchain.com/o/12961472-f400-4233-9489-871f15840b65/datasets/62c6c7ad-c7de-4ff5-bb06-e60ce711082e`
+- Projeto com as execuções: `https://smith.langchain.com/o/12961472-f400-4233-9489-871f15840b65/projects/p/7be8fb98-aabe-40d1-846a-1bbd28eae47e`
 
 ### Registro de iterações
 
@@ -403,5 +436,3 @@ mba-ia-pull-evaluation-prompt/
 ```bash
 pytest tests/test_prompts.py -v
 ```
-
-<!-- generated with AI -->
